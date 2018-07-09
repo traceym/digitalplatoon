@@ -5,6 +5,8 @@
  */
 package za.co.digitalplatoon.controller;
 
+import java.util.ArrayList;
+import java.util.Date;
 import za.co.digitalplatoon.model.Invoice;;
 import java.util.List;
 import org.slf4j.Logger;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
+import za.co.digitalplatoon.model.LineItem;
 import za.co.digitalplatoon.service.InvoiceService;
 import za.co.digitalplatoon.util.CustomErrorType;
 
@@ -57,15 +60,26 @@ public class InvoiceController {
         }
         return new ResponseEntity<Invoice>(invoice, HttpStatus.OK);
     }
-
-    @RequestMapping(value = "/", produces =MediaType.APPLICATION_JSON_VALUE , method = RequestMethod.POST)
-    public ResponseEntity<?> addInvoice(@RequestBody Invoice invoice, UriComponentsBuilder ucBuilder) {
+    
+    @RequestMapping(produces =MediaType.APPLICATION_JSON_VALUE, method = {RequestMethod.GET,RequestMethod.POST} )
+    public ResponseEntity<Invoice> addInvoice(@RequestBody Invoice invoice, UriComponentsBuilder ucBuilder) {
+        System.out.println("@@@@@@@@@@@@ Add Invoice @@@@@@");
+        invoice.setClient("Vishal Rampathla");
+        invoice.setId(1L);
+        invoice.setInvoiceDate(new Date());
+        List<LineItem> items = new ArrayList<>();
+        LineItem lineItem = new LineItem();
+        lineItem.setDescription("Printer");
+        lineItem.setQuantity(2L);
+        items.add(lineItem);
+        invoice.setItems(items);
         logger.info("Adding invoice : {}", invoice);
-
+        System.out.println("@@@@@" + invoice);
         invoiceService.addInvoice(invoice);
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/invoice/").buildAndExpand(invoice.getId()).toUri());
-        return new ResponseEntity<String>(headers, HttpStatus.CREATED);
+        headers.setLocation(ucBuilder.path("/invoice").buildAndExpand(invoice.getId()).toUri());
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
+    
 
 }
