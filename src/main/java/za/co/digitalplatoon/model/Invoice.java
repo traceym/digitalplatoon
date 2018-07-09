@@ -12,22 +12,22 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-//import javax.persistence.Entity;
-//import javax.persistence.GeneratedValue;
-//import javax.persistence.GenerationType;
-//import javax.persistence.Id;
-//import java.util.stream.Collectors;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.util.stream.Collectors;
 
 /**
  *
  * @author Mandla
  */
-//@Entity
+@Entity
 public class Invoice implements Serializable {
 
     private static final long serialVersionUID = 1L;
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String client;
     private Long vatRate;
@@ -35,6 +35,10 @@ public class Invoice implements Serializable {
     private List<LineItem> items;
     public static final BigDecimal VAT = new BigDecimal("15");
     public static final BigDecimal HUNDRED = new BigDecimal("100");
+    private BigDecimal vat;
+    private BigDecimal subTotal;
+    private BigDecimal total;
+    
 
     public Invoice() {
     }
@@ -98,7 +102,7 @@ public class Invoice implements Serializable {
         this.items = items;
     }
 
-    private BigDecimal getSubTotal() {
+    public BigDecimal getSubTotal() {
         return getItems().stream()
                 .<BigDecimal>map(invoice -> invoice
                 .getUnitPrice()
@@ -108,12 +112,24 @@ public class Invoice implements Serializable {
                         (sum, elem) -> sum.add(elem)));
     }
 
-    private BigDecimal getVat() {
-        return VAT;
+    public BigDecimal getVatAmount() {
+        return VAT.multiply(getSubTotal().divide(HUNDRED));
     }
 
-    private BigDecimal getTotal() {
-        BigDecimal vatAmount = getSubTotal().divide(HUNDRED).multiply(getVat());
+    public void setVatAmount(BigDecimal vat) {
+        this.vat = vat;
+    }
+
+    public void setSubTotal(BigDecimal subTotal) {
+        this.subTotal = subTotal;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
+
+    public BigDecimal getTotal() {
+        BigDecimal vatAmount = getSubTotal().divide(HUNDRED).multiply(VAT);
         BigDecimal totalAmount = getSubTotal().add(vatAmount);
         return totalAmount;
 

@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.websystique.springboot</groupId>
-	<artifactId>DigitalPlatoonAssignment</artifactId>
+	<artifactId>digitalplatoonassignment</artifactId>
 	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
-	<name>DigitalPlatoonAssignment</name>
+	<name>digitalplatoonassignment</name>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -32,6 +32,12 @@
     		<groupId>com.fasterxml.jackson.dataformat</groupId>
     		<artifactId>jackson-dataformat-xml</artifactId>
 		</dependency>
+	 <dependency>
+	  <groupId>javax</groupId>
+	  <artifactId>javaee-web-api</artifactId>
+	  <version>7.0</version>
+	  <type>jar</type>
+	 </dependency>
 	</dependencies>
 	<build>
 		<plugins>

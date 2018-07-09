@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +29,7 @@ import za.co.digitalplatoon.util.CustomErrorType;
  */
 @RestController
 @RequestMapping("/invoice")
+
 public class InvoiceController {
 
     public static final Logger logger = LoggerFactory.getLogger(InvoiceController.class);
@@ -35,21 +37,18 @@ public class InvoiceController {
     @Autowired
     InvoiceService invoiceService;
 
-    @RequestMapping(value = "/viewAllInvoices", method = RequestMethod.GET)
+    @RequestMapping(value = "/viewAllInvoices", produces =MediaType.APPLICATION_JSON_VALUE ,  method = RequestMethod.GET)
     public ResponseEntity<List<Invoice>> viewAllInvoices() {
-        System.out.println("@@@@@@@@@@@@@@ Calling viewAllInvoices");
         List<Invoice> invoices = invoiceService.viewAllInvoices();
         if (invoices.isEmpty()) {
-            System.out.println("@@@@@@@@@@@@@@ " + invoices + "invoices empty");
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<List<Invoice>>(invoices, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}",produces =MediaType.APPLICATION_JSON_VALUE , method = RequestMethod.GET)
     public ResponseEntity<?> viewInvoice(@PathVariable("id") long id) {
         logger.info("Fetching Invoice with id {}", id);
-        System.out.println("@@@@@@@@@@@@@@ " + id + "viewInview");
         Invoice invoice = invoiceService.viewInvoice(id);
         if (invoice == null) {
             logger.error("Invoice with id {} not found.", id);
@@ -59,7 +58,7 @@ public class InvoiceController {
         return new ResponseEntity<Invoice>(invoice, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "/", produces =MediaType.APPLICATION_JSON_VALUE , method = RequestMethod.POST)
     public ResponseEntity<?> addInvoice(@RequestBody Invoice invoice, UriComponentsBuilder ucBuilder) {
         logger.info("Adding invoice : {}", invoice);
 
