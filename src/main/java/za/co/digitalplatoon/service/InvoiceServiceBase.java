@@ -90,17 +90,12 @@ public class InvoiceServiceBase implements InvoiceService {
         lineItem.setQuantity(1L);
         lineItem.setUnitPrice(new BigDecimal("250.25"));
         lineItem.setLineItemTotal(lineItem.getLineItemTotal());
-        System.out.println("@@@@@@@ Line Item " + lineItem);
         items.add(lineItem);
-//        invoice.setSubTotal(invoice.getSubTotal());
-//        invoice.setVatAmount(invoice.getVatAmount());
-//        invoice.setTotal(invoice.getTotal());
         invoice.setItems(items);
-        System.out.println("@@@@@@@ Items " + items);
-        System.out.println(" Invoice with  " + invoice.getItems().size() + " items");
-        System.out.println(" @@@@@@@@@@ Finished creating @@@@@@@@@@");
+        invoice.setSubTotal(invoice.getSubTotal());
+        invoice.setVatAmount(invoice.getVatAmount());
+        invoice.setTotal(invoice.getTotal());
         invoiceList.add(invoice);
-        System.out.println("@@@@@@@@@ Invoice List @@@@@@@@@ "+ invoiceList.size() + " Size");
 
         
         Invoice invoice1 = new Invoice();
@@ -116,10 +111,11 @@ public class InvoiceServiceBase implements InvoiceService {
         lineItem2.setUnitPrice(new BigDecimal("780.25"));
         lineItem2.setLineItemTotal(lineItem.getLineItemTotal());
         item2.add(lineItem2);
-//        invoice1.setSubTotal(invoice.getSubTotal());
-//        invoice1.setVatAmount(invoice.getVatAmount());
-//        invoice1.setTotal(invoice.getTotal());
+
         invoice1.setItems(item2);
+        invoice1.setSubTotal(invoice.getSubTotal());
+        invoice1.setVatAmount(invoice.getVatAmount());
+        invoice1.setTotal(invoice.getTotal());
         invoiceList.add(invoice1);
         System.out.println(" Finished creating the second one");
         
@@ -136,10 +132,10 @@ public class InvoiceServiceBase implements InvoiceService {
         lineItem3.setUnitPrice(new BigDecimal("1050.25"));
         lineItem3.setLineItemTotal(lineItem.getLineItemTotal());
         item3.add(lineItem3);
+        invoice3.setItems(item3);
         invoice3.setSubTotal(invoice.getSubTotal());
         invoice3.setVatAmount(invoice.getVatAmount());
         invoice3.setTotal(invoice.getTotal());
-        invoice3.setItems(item3);
         invoiceList.add(invoice3);
         System.out.println(" Finished creating the third one");
         
