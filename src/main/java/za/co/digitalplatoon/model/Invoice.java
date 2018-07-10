@@ -17,6 +17,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.stream.Collectors;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -32,6 +33,7 @@ public class Invoice implements Serializable {
     private String client;
     private Long vatRate;
     private Date invoiceDate;
+    @OneToMany(mappedBy = "invoice")
     private List<LineItem> items;
     public static final BigDecimal VAT = new BigDecimal("15");
     public static final BigDecimal HUNDRED = new BigDecimal("100");

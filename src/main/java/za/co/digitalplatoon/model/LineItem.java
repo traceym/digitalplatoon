@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -28,6 +29,8 @@ public class LineItem implements Serializable {
     private String description;
     private BigDecimal unitPrice;
     private BigDecimal lineItemTotal;
+    @ManyToOne
+    private Invoice invoice;
 
     public LineItem() {
     }
@@ -36,6 +39,7 @@ public class LineItem implements Serializable {
         this.id = copyFrom.id;
         this.description = copyFrom.description;
         this.unitPrice = copyFrom.unitPrice;
+        this.lineItemTotal = copyFrom.lineItemTotal;
     }
 
     public Long getId() {
