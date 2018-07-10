@@ -18,6 +18,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.stream.Collectors;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -32,6 +33,7 @@ public class Invoice implements Serializable {
     private Long id;
     private String client;
     private Long vatRate;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date invoiceDate;
     @OneToMany(mappedBy = "invoice")
     private List<LineItem> items;
