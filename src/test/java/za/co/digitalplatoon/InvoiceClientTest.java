@@ -72,8 +72,9 @@ public class InvoiceClientTest {
     private static void addInvoice() {
         System.out.println("Testing addInvoice ----------");
         RestTemplate restTemplate = new RestTemplate();
+        Invoice invoice = restTemplate.getForObject(REST_SERVICE_URI+"/addInvoice", Invoice.class);
+        invoice = new Invoice();
         List<LineItem> itemList = new ArrayList<>();
-        Invoice invoice = new Invoice();
         invoice.setClient("John Cousin");
         invoice.setId(4L);
         invoice.setInvoiceDate(new Date());
@@ -86,7 +87,7 @@ public class InvoiceClientTest {
         lineItem.setLineItemTotal(new BigDecimal("150.50"));
         itemList.add(lineItem);
         invoice.setItems(itemList);           
-        URI uri = restTemplate.postForLocation(REST_SERVICE_URI+"/", invoice, Invoice.class);
+        URI uri = restTemplate.postForLocation(REST_SERVICE_URI+"/addInvoice", invoice, Invoice.class);
         System.out.println("Location : "+uri.toASCIIString());
     }
  
