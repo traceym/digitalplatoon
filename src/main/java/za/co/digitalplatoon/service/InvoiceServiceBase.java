@@ -41,20 +41,6 @@ public class InvoiceServiceBase implements InvoiceService {
         if (invoice == null) {
             invoice = new Invoice();
         }
-        invoice.setClient("Clinton Saxon");
-        invoice.setId(1L);
-        invoice.setInvoiceDate(new Date());
-        invoice.setVatRate(15L);
-        
-        LineItem item = new LineItem();
-        item.setId(1L);
-        item.setDescription("Rugby Jersey");
-        item.setQuantity(2L);
-        item.setUnitPrice(new BigDecimal("15.75"));
-        invoice.setItems((List<LineItem>) item);
-        invoice.getSubTotal();
-        invoice.getVatAmount();
-        invoice.getTotal();
         return invoice;
     }
 

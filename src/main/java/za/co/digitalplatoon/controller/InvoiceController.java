@@ -5,6 +5,7 @@
  */
 package za.co.digitalplatoon.controller;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import za.co.digitalplatoon.model.Invoice;;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -61,9 +63,10 @@ public class InvoiceController {
         return new ResponseEntity<Invoice>(invoice, HttpStatus.OK);
     }
     
-    @RequestMapping(produces =MediaType.APPLICATION_JSON_VALUE, method = {RequestMethod.GET,RequestMethod.POST} )
-    public ResponseEntity<Invoice> addInvoice(@RequestBody Invoice invoice, UriComponentsBuilder ucBuilder) {
+    @RequestMapping(value = "/addInvoice", produces =MediaType.APPLICATION_JSON_VALUE, method = {RequestMethod.GET} )
+    public ResponseEntity<Invoice> addInvoice(Invoice invoice, UriComponentsBuilder ucBuilder) {
         System.out.println("@@@@@@@@@@@@ Add Invoice @@@@@@");
+        invoice = new Invoice();
         invoice.setClient("Vishal Rampathla");
         invoice.setId(1L);
         invoice.setInvoiceDate(new Date());
@@ -71,13 +74,13 @@ public class InvoiceController {
         LineItem lineItem = new LineItem();
         lineItem.setDescription("Printer");
         lineItem.setQuantity(2L);
+        lineItem.setUnitPrice(BigDecimal.ONE);
         items.add(lineItem);
         invoice.setItems(items);
         logger.info("Adding invoice : {}", invoice);
-        System.out.println("@@@@@" + invoice);
         invoiceService.addInvoice(invoice);
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/invoice").buildAndExpand(invoice.getId()).toUri());
+        headers.setLocation(ucBuilder.path("/addInvoice").buildAndExpand(invoice.getId()).toUri());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
     
